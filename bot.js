@@ -24,7 +24,7 @@ const History = mongoose.model("History", {
     content: String
 });
 
-let history = [], elter_prompt = "", prompt_path = path.resolve("./ai", "elter.prompt"), history_max_size = 8;
+let history = [], elter_prompt = "", prompt_path = path.resolve("./prompt", "elter.prompt"), history_max_size = 8;
 
 if (fs.existsSync(prompt_path)) {
     elter_prompt = fs.readFileSync(prompt_path, "utf-8");
