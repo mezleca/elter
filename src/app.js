@@ -1,10 +1,8 @@
 import { Client, GatewayIntentBits } from "discord.js";
 import * as dotenv from "dotenv";
 import mongoose from "mongoose";
-import fs from "node:fs";
-
-const cmds_file = fs.readdirSync("./src/commands").filter(file => file.endsWith(".js"));
-let cmds = [];
+import { cmds_file, commands } from "./setup.js";
+import { initialize } from "./slash.js";
 
 dotenv.config([
     "../.env"
@@ -15,6 +13,7 @@ const password_db = process.env.DB_PASSWORD;
 
 mongoose.connect(`mongodb+srv://${user_db}:${password_db}@cluster0.1rcvrlu.mongodb.net/?retryWrites=true&w=majority`).then(() => {
     console.log("conectado a db");
+    /* initialize(); */
 });
 
 export const History = mongoose.model("History", {
@@ -27,11 +26,6 @@ export const History = mongoose.model("History", {
 const client = new Client({intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages]});
 
 client.on("ready", () => {
-
-    for (let i = 0; i < cmds_file.length; i++) {
-        cmds.push(import(`./commands/${cmds_file[i]}`));
-    }
-
     console.log("bot iniciado");
 });
 
@@ -43,6 +37,7 @@ client.on("interactionCreate", async (interaction) => {
         }
 
         const cmd_exist = cmds_file.find(cmd => cmd === `${interaction.commandName}.js`);
+        const cmds = await commands;
 
         if (cmd_exist) {
 
