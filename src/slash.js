@@ -3,9 +3,9 @@ import * as dotenv from "dotenv";
 
 dotenv.config({ path: "../.env" });
 
-const rest = new REST({version: "10"}).setToken(process.env.DISCORD_TOKEN);
+const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_TOKEN);
 
-const types = {
+export const types = {
     "STRING": 3,
     "INTEGER": 4,
     "BOOLEAN": 5,
@@ -35,10 +35,7 @@ const commands = [
 ];
 
 try {
-    console.log("inicio de registro de comandos");
-
     await rest.put(Routes.applicationCommands(process.env.DISCORD_ID), { body: commands });
-
     console.log("comandos registrados");
 } catch(err) {
     console.error(err);

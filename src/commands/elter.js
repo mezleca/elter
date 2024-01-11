@@ -1,57 +1,35 @@
-import { Client, GatewayIntentBits } from "discord.js";
-import * as dotenv from "dotenv";
+import { types } from "../slash.js";
+import { History } from "../app.js";
+
 import Openai from "openai";
 import fs from "node:fs";
 import path from "path";
-import mongoose from "mongoose";
-
 const openai = new Openai();
-dotenv.config();
 
-const user_db = process.env.DB_USER;
-const password_db = process.env.DB_PASSWORD;
-
-// console.log(user_db, password_db);
-
-mongoose.connect(`mongodb+srv://${user_db}:${password_db}@cluster0.1rcvrlu.mongodb.net/?retryWrites=true&w=majority`).then(() => {
-    console.log("conectado a db");
-});
-
-const History = mongoose.model("History", {
-    timestamp: Number,
-    role: String,
-    name: String,
-    content: String
-});
-
-let history = [], elter_prompt = "", prompt_path = path.resolve("./prompt", "elter.prompt"), history_max_size = 8;
+let history = [],
+elter_prompt = "",
+prompt_path = path.resolve(path.resolve("src", "prompts", "elter.prompt")),
+history_max_size = 8;
 
 if (fs.existsSync(prompt_path)) {
     elter_prompt = fs.readFileSync(prompt_path, "utf-8");
 } else {
     elter_prompt = fs.readFileSync(prompt_path, "utf-8");
-};
+}
 
-const client = new Client({intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages]});
-
-client.on("ready", () => {
-    console.log("bot iniciado");
-});
-
-client.on("interactionCreate", async (interaction) => {
-    try {
-
-        if (!interaction.isChatInputCommand()) {
-            return;
+const command = {
+    name: "elter",
+    description: "comando para falar com o elter",
+    options: [
+        {
+            name: "mensagem",
+            type: types.STRING,
+            description: "mensagem para o elter",
         }
+    ],
+    async execute(interaction) {
 
-        if (interaction.commandName === "ping") {
-            await interaction.reply("pong");
-        };
-    
-        if (interaction.commandName === "elter") {
-
-            const message_content = interaction.options.getString("mensagem");
+        const message_content = interaction.options.getString("mensagem");
 
             if (!history) { 
 
@@ -106,10 +84,7 @@ client.on("interactionCreate", async (interaction) => {
             await new_history.save();
     
             interaction.editReply(text);
-        }
-    } catch (err) {
-        console.error(err);
     }
-});
+};
 
-client.login(process.env.DISCORD_TOKEN);
+export default command;
