@@ -1,5 +1,5 @@
 # elter
-<p style="color: rgb(190,190,1970)">
+<p style="color: rgb(190,190,1970); font-size: 28px;">
     source code do bot elter-eduardo
     <br>
     atualmente em rework...
