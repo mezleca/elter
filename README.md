@@ -13,7 +13,10 @@
 - add comando exclusivo para gerar imagens.
 - add osu map finder ( pelo nome da musica ).
 
-<h1>Setup</h1>
+<h1>
+    Setup
+</h1>
+
 - instale node.js/npm
 - pegue o token do seu bot no discord apartir desse link: https://discord.com/developers/applications
 - crie um arquivo .env na raiz do projeto e coloque o token, mongodb user/pass, api key do osu. exemplo:
