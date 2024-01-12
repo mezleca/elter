@@ -2,7 +2,6 @@ import { Client, GatewayIntentBits } from "discord.js";
 import * as dotenv from "dotenv";
 import mongoose from "mongoose";
 import { cmds_file, commands } from "./setup.js";
-import { initialize } from "./slash.js";
 
 dotenv.config([
     "../.env"
@@ -14,13 +13,6 @@ const password_db = process.env.DB_PASSWORD;
 mongoose.connect(`mongodb+srv://${user_db}:${password_db}@cluster0.1rcvrlu.mongodb.net/?retryWrites=true&w=majority`).then(() => {
     console.log("conectado a db");
     /* initialize(); */
-});
-
-export const History = mongoose.model("History", {
-    timestamp: Number,
-    role: String,
-    name: String,
-    content: String
 });
 
 const client = new Client({intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages]});

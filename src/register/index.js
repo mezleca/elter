@@ -1,22 +1,11 @@
 import { REST, Routes } from "discord.js";
 import * as dotenv from "dotenv";
-import { commands } from "./setup.js";
+import { commands } from "../setup.js";
 import path from "path";
 
 dotenv.config({ path: path.resolve() + "/.env" });
 
 const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_TOKEN);
-
-export const types = {
-    "STRING": 3,
-    "INTEGER": 4,
-    "BOOLEAN": 5,
-    "USER": 6,
-    "CHANNEL": 7,
-    "ROLE": 8,
-    "MENTIONABLE": 9,
-    "NUMBER": 10
-};
 
 export const initialize = async () => {
 
@@ -49,9 +38,12 @@ export const initialize = async () => {
         }
     
         await rest.put(Routes.applicationCommands(process.env.DISCORD_ID), { body: filterd_commands });
+
         return "slash commands registrados";
 
     } catch(err) {
         console.error(err);
     };
 };
+
+initialize().then(console.log);

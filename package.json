@@ -2,15 +2,16 @@
   "name": "elter-bot",
   "version": "0.1.0",
   "description": "elter bot",
-  "main": "app.js",
+  "type": "module",
   "scripts": {
-    "start": "node src/app.js"
+    "register": "node src/register/index.js",
+    "init": "node src/app.js",
+    "dev": "nodemon src/app.js"
   },
   "dependencies": {
     "discord.js": "^14.14.1",
     "dotenv": "^16.3.1",
     "mongoose": "^8.0.4",
     "openai": "^4.24.1"
-  },
-  "type": "module"
+  }
 }

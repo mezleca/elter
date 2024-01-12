@@ -1,5 +1,5 @@
-import { types } from "../slash.js";
-import { History } from "../app.js";
+import { types } from "../utils/types.js";
+import { History } from "../utils/models/History.js";	
 
 import Openai from "openai";
 import fs from "node:fs";
@@ -8,7 +8,7 @@ const openai = new Openai();
 
 let history = [],
 elter_prompt = "",
-prompt_path = path.resolve(path.resolve("src", "prompts", "elter.prompt")),
+prompt_path = path.resolve(path.resolve("src", "utils", "prompts", "elter.prompt")),
 history_max_size = 8;
 
 if (fs.existsSync(prompt_path)) {
