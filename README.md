@@ -18,8 +18,8 @@
 </h1>
 
 - instale node.js/npm
-- pegue o token do seu bot no discord apartir desse link: https://discord.com/developers/applications
-- crie um arquivo .env na raiz do projeto e coloque o token, mongodb user/pass, api key do osu. exemplo:
+- pegue o token do seu bot no discord a partir desse link: https://discord.com/developers/applications
+- crie um arquivo .env na raiz do projeto e coloque o token, mongodb user/pass e api key do osu. exemplo:
 ```
  TOKEN=seu_token_aqui
  DISCORD_TOKEN = ...
