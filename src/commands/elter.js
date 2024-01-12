@@ -1,21 +1,9 @@
 import { types } from "../utils/types.js";
-import { History } from "../utils/models/History.js";	
+import { History } from "../utils/models/History.js";
+import { openai } from "../utils/openai.js";
+import { get_prompt } from "../utils/openai.js";
 
-import Openai from "openai";
-import fs from "node:fs";
-import path from "path";
-const openai = new Openai();
-
-let history = [],
-elter_prompt = "",
-prompt_path = path.resolve(path.resolve("src", "utils", "prompts", "elter.prompt")),
-history_max_size = 8;
-
-if (fs.existsSync(prompt_path)) {
-    elter_prompt = fs.readFileSync(prompt_path, "utf-8");
-} else {
-    elter_prompt = fs.readFileSync(prompt_path, "utf-8");
-}
+const history = [], history_max_size = 10;
 
 const command = {
     name: "elter",
@@ -29,6 +17,7 @@ const command = {
     ],
     async execute(interaction) {
 
+        const elter_prompt = get_prompt();
         const message_content = interaction.options.getString("mensagem");
 
             if (!history) { 
