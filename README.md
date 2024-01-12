@@ -1,8 +1,9 @@
 # elter
 <p style="color: rgb(190,190,1970); font-size: 28px;">
-    source code do bot elter-eduardo
+    source code do bot elter-eduardo ( wip ).
     <br>
-    atualmente em rework...
+    serve para conversar, gerar imagens, conseguir informacoes relacionadas a osu!, etc...
+
 </p>
 
 <h1 style="font-size: 40px">
