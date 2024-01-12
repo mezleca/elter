@@ -6,6 +6,7 @@ import { get_prompt } from "../utils/openai.js";
 const history = [], history_max_size = 10;
 
 const command = {
+
     name: "elter",
     description: "comando para falar com o elter",
     options: [
@@ -71,8 +72,7 @@ const command = {
             });
 
             await new_history.save();
-    
-            interaction.editReply(text);
+            await interaction.editReply(text);
     }
 };
 

@@ -1,0 +1,3 @@
+Leia a mensagem do usuario e um json sem formatacoes com os valores title e artist.
+Voce deve indentificar se o usuario digitou o nome do artista e da musica ou somente o nome da musica.
+caso o usuario nao tenha digitado nada que seja identificavel, retorne o json com os campos artist e title null.
