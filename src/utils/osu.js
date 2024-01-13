@@ -211,5 +211,16 @@ export const get_map_pp = async (id, mod) => {
     const mod_id  = mods.id(mod);
     const info = await tools.pp.calculate(id, mod_id);
 
-    return info;
+    console.log(info);
+
+    const text = 
+    `
+    **${info.data.artist}** - **${info.data.title}** by (**${info.data.creator.name}**) [ **${info.data.diff}** | **${info.stats.star.pure}*** **${mod ? `+${mod}` : "NM"}** ]\n
+**100%**: ${info.pp.acc['100']}PP
+**98%**: ${info.pp.acc['98']}PP
+**95%**: ${info.pp.acc['95']}PP
+**90%**: ${info.pp.acc['90']}PP
+    `
+
+    return text;
 };

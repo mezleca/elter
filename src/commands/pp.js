@@ -19,14 +19,19 @@ const command = {
         }
     ],
     async execute(interaction) {
+
         const id = interaction.options.getString("id");
         const mods = interaction.options.getString("mods");
 
         await interaction.deferReply();
 
-        const pp = await get_map_pp(id, mods);
-
-        await interaction.reply(pp);
+        try {
+            const pp = await get_map_pp(id, mods);
+            await interaction.editReply(pp);
+        } catch (err) {
+            console.log(err);
+            await interaction.editReply("nao foi possivel calcular o pp. tenha certeza que o id da 'dificuldade' esta correto!'");
+        }
     }
 };
 

@@ -1,4 +1,5 @@
 const command = {
+    
     name: "ping",
     description: "Pong!",
     async execute(interaction) {
