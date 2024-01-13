@@ -1,6 +1,6 @@
 import { types } from "../utils/types.js";
 import { History } from "../utils/models/History.js";
-import { openai } from "../utils/openai.js";
+import { generate_text } from "../utils/openai.js";
 import { get_prompt } from "../utils/openai.js";
 
 const history = [], history_max_size = 10;
@@ -18,7 +18,7 @@ const command = {
     ],
     async execute(interaction) {
 
-        const elter_prompt = get_prompt();
+        const elter_prompt = get_prompt("elter.prompt");
         const message_content = interaction.options.getString("mensagem");
 
             if (!history) { 
@@ -40,23 +40,9 @@ const command = {
             }
 
             await interaction.deferReply({ephemeral: false});
-    
-            const response = await openai.chat.completions.create({
-                model: "gpt-4-1106-preview",
-                temperature: 0.85,
-                max_tokens: 3200,
-                messages: [
-                    {
-                        role:"system", content: elter_prompt + JSON.stringify([...history].reverse())
-                    },
-                    {
-                        role:"user", content: message_content
-                    }
-                ]
-            });
-    
-            const text = response.choices[0].message.content;
-    
+
+            const text = await generate_text(elter_prompt, message_content, history);
+
             history.push({
                 timestamp: Date.now(),
                 role: "system",

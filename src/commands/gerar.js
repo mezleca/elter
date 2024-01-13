@@ -1,5 +1,6 @@
 import { types } from "../utils/types.js";
-import { openai } from "../utils/openai.js";
+import { openai, generate_text, generate_image, get_prompt } from "../utils/openai.js";
+import fs from "fs";
 
 const command = {
 
@@ -16,16 +17,14 @@ const command = {
 
         await interaction.deferReply({ephemeral: false});
 
-        const prompt = interaction.options.getString("prompt");
-        const response = await openai.images.generate({
-            prompt: prompt,
-            model: "dall-e-3",
-            quality: "hd",
-            n: 1,
-            style: "vivid"
-        });
+        const prompt_text = interaction.options.getString("prompt"),
+        prompt_enhancer   = get_prompt("enhancer.prompt");
 
-        const image = response.data[0].url;
+        const enhanced_prompt = await generate_text(prompt_enhancer, prompt_text);
+
+        console.log(enhanced_prompt);
+
+        const image = await generate_image(enhanced_prompt);
 
         await interaction.editReply(image);
     }
