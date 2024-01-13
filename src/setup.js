@@ -4,6 +4,7 @@ export const cmds_file = fs.readdirSync("./src/commands/").filter(file => file.e
 let cmds = [];
 
 for (let i = 0; i < cmds_file.length; i++) {
+    console.log(`importando ${cmds_file[i]}`);
     cmds.push(import(`./commands/${cmds_file[i]}`));
 };
 

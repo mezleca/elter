@@ -1,8 +1,9 @@
-import { v2, auth } from 'osu-api-extended';
+import { v2, auth, tools, mods } from 'osu-api-extended';
 import { spotify } from './spotify.js';
 import { openai } from './openai.js';
 import ytdl from 'ytdl-core';
 import fs from 'fs';
+import { levenshteinEditDistance } from 'levenshtein-edit-distance';
 
 const osu_prompt = fs.readFileSync("./src/utils/prompts/osu.prompt", "utf-8") || "";
 
@@ -137,8 +138,6 @@ export const find_osu_map = async (message) => {
             break;
     }
 
-    console.log(music_info, method);
-
     if (!music_info.artist && !music_info.title) {
         return "nao foi possivel encontrar nenhum mapa com essas informacoes";
     }
@@ -151,19 +150,45 @@ export const find_osu_map = async (message) => {
     }
   
     await auth.login(process.env.OSU_ID, process.env.OSU_SECRET, ['public']);
-  
-    const map = await v2.beatmaps.search({query: `${name} ${artist ? "artist" + artist : ""}`, mode: "osu", section: ""});
-  
-    if (map.beatmapsets.length === 0) {
-        throw new Error("no maps found");
+
+    // qual o sentido de na pagina tu conseguir buscar em todas as sections mas na api nao???
+    const sections = ["ranked", "loved", "pending", "graveyard"];
+    let maps = [], found = false;
+
+    for (let i = 0; i < sections.length; i++) {
+
+        if (found) {
+            break;
+        }
+
+        const section = sections[i];
+        const map = await v2.beatmaps.search({ query: `${artist} ${name}`, mode: "osu", section: section });
+
+        if (name) {
+            map.beatmapsets.map((_map) => {
+                const distance = levenshteinEditDistance(_map.title.toLowerCase(), name.toLowerCase());
+                if (distance <= 1) {
+                    console.log("found map, section:", sections[i]);
+                    found = `https://osu.ppy.sh/beatmapsets/${_map.id}`;
+                }  
+            });
+        }
+
+        if (!map.beatmapsets[0]) 
+            continue;
+
+        maps.push(map.beatmapsets[0]);
     }
 
-    // faz um looping sobre map e verifica se algum deles possui o title igual ao da musica se sim retorna o link do mapa.
-    for (let i = 0; i < map.beatmapsets.length; i++) {
-        const map_ = map.beatmapsets[i];
-        if (map_.title.toLowerCase() === name.toLowerCase()) {
-            return `https://osu.ppy.sh/beatmapsets/${map_.id}`;
-        }
+    if (found) {
+        return found;
+    }
+
+    // remove os mapas duplicados
+    maps = [...new Set(maps)];
+  
+    if (maps.length === 0) {
+        throw new Error("no maps found");
     }
 
     let str = "";
@@ -171,12 +196,20 @@ export const find_osu_map = async (message) => {
     // se nao achar porra nenhuma retorna os 3 primeiros fds.
     for (let i = 0; i < 3; i++) {
         
-        if (i >= map.beatmapsets.length) 
+        if (i >= maps.length) 
             break;
 
-        const map_ = map.beatmapsets[i];
+        const map_ = maps[i];
         str += `${i + 1}. ${map_.title} - ${map_.artist} (${map_.creator})\nhttps://osu.ppy.sh/beatmapsets/${map_.id}\n\n`;
     }
   
     return str;
+};
+
+export const get_map_pp = async (id, mod) => {
+
+    const mod_id  = mods.id(mod);
+    const info = await tools.pp.calculate(id, mod_id);
+
+    return info;
 };
