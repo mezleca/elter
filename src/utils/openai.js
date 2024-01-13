@@ -44,7 +44,7 @@ export const generate_vision = async (system, question, url, history) => {
           role: "system",
           content: [
             { 
-              type: "text", text: system         
+              type: "text", text: system + JSON.stringify([...history].reverse())       
             }
           ]
         },
