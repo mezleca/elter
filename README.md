@@ -1,6 +1,6 @@
 # elter
 <p style="color: rgb(190,190,1970); font-size: 28px;">
-    source code do bot elter-eduardo ( wip ).g
+    source code do bot elter-eduardo ( wip ).
     <br>
     serve para conversar, gerar imagens, conseguir informacoes relacionadas a osu!, etc...
 
@@ -10,9 +10,10 @@
     todo:
 </h1>
 
-- add agent ( detectar quando o usuario pedir uma foto/imagem/etc )
-- add comando exclusivo para gerar imagens.
-- add osu map finder ( pelo nome da musica ).
+- mais comandos para o osu (map pp, etc).
+- comando para recriation com dall-e.
+- assisted image generation. (gera uma imagem passando uma como base usando sla gpt vision)
+
 
 <h1>
     Setup
