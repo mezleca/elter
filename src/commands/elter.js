@@ -41,23 +41,18 @@ const command = {
 
             history.unshift({
                 timestamp: Date.now(),
+                date: `date: ${date.getDate()} - time: ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
                 role: "user",
                 name: interaction.user.username,
                 content: message_content      
             });
 
-            const user_history = new History({
-                timestamp: Date.now(),
-                date: date.getDate(),
-                role: "user",
-                name: interaction.user.username,
-                content: message_content
-            });
+            const user_history = new History(history[0]);
 
             await user_history.save();
 
-            if (history.length > 10) {
-                history = history.slice(0, 5);
+            if (history.length > history_max_size) {
+                history = history.slice(0, history_max_size - 1);
             };
 
             // return await interaction.editReply("```" + history + "```");
@@ -73,7 +68,7 @@ const command = {
 
             const new_history = new History({
                 timestamp: Date.now(),
-                date: date.getDate(),
+                date: `date: ${date.getDate()} - time: ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
                 role: "system",
                 name: "elter",
                 content: text
