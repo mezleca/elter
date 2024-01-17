@@ -128,3 +128,12 @@ dist
 
 # prompt files
 .prompt*
+
+# temp folder
+temp
+
+# media files
+*.mp4
+*.webm
+*.ogg
+*.mp3

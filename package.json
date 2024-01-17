@@ -1,6 +1,6 @@
 {
   "name": "elter-bot",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "elter bot",
   "type": "module",
   "scripts": {
@@ -9,15 +9,19 @@
     "dev": "nodemon src/app.js"
   },
   "dependencies": {
+    "@discordjs/opus": "github:discordjs/opus",
+    "@discordjs/voice": "^0.16.1",
     "axios": "^1.6.5",
     "discord.js": "^14.14.1",
     "dotenv": "^16.3.1",
     "fluent-ffmpeg": "^2.1.2",
     "levenshtein-edit-distance": "^3.0.1",
+    "libsodium-wrappers": "^0.7.13",
     "mongoose": "^8.0.4",
-    "mp3-cutter": "^1.0.6",
+    "node-pre-gyp": "^0.17.0",
     "openai": "^4.24.1",
     "osu-api-extended": "^2.7.67",
+    "rebuild": "^0.1.2",
     "spotify-web-api-node": "^5.0.2",
     "ytdl-core": "^4.11.5"
   }

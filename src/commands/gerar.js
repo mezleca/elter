@@ -28,27 +28,33 @@ const command = {
     
             const enhanced_prompt = await generate_text(prompt_enhancer, prompt_text, history);
     
-            history.push({
+            history.unshift({
                 timestamp: Date.now(),
+                date: new Date().toLocaleString(),
                 role: "user",
                 name: interaction.user.username,
                 content: prompt_text
             });
     
-            const new_history = new History({
-                timestamp: Date.now(),
-                role: "user",
-                name: interaction.user.username,
-                content: prompt_text
-            });
+            const new_history = new History(history[0]);
     
             await new_history.save();
     
-            const image = await generate_image(enhanced_prompt);
+            const image = await generate_image(prompt_text);
+
+            const bot_history = new History({
+                timestamp: Date.now(),
+                date: new Date().toLocaleString(),
+                role: "bot",
+                name: "elter",
+                content: enhanced_prompt
+            });
+
+            await bot_history.save();
     
             await interaction.editReply(`prompt: ${enhanced_prompt}\n${image}`);
         } catch(err) {
-            await interaction.editReply("Erro ao gerar imagem:", err);
+            await interaction.editReply("Erro ao gerar imagem: " + err.error.message);
         }
     }
 };

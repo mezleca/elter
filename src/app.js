@@ -15,7 +15,7 @@ mongoose.connect(`mongodb+srv://${user_db}:${password_db}@cluster0.1rcvrlu.mongo
     /* initialize(); */
 });
 
-const client = new Client({intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages]});
+const client = new Client({intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates]});
 
 client.on("ready", () => {
     console.log("bot iniciado");
@@ -46,7 +46,7 @@ client.on("interactionCreate", async (interaction) => {
         }
 
     } catch (err) {
-        console.error(err);
+        console.log(err);
     }
 });
 
