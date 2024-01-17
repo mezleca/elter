@@ -10,10 +10,8 @@
     todo:
 </h1>
 
-- mais comandos para o osu (map pp, etc).
-- comando para recriation com dall-e.
-- assisted image generation. (gera uma imagem passando uma como base usando sla gpt vision)
-
+- misc commands para o osu!
+- comandos de musica ( queue de play e skip )
 
 <h1>
     Setup
@@ -31,6 +29,7 @@
  OSU_ID = ...
  SPOTIFY_ID = ...
  SPOTIFY_SECRET = ...
+ ROLE_ID  = ... ( apenas caso voce queira que o bot seja disponvivel apenas para um cargo especifico no seu servidor )
 ```
 - instale as dependencias com o comando: `npm install`
 - inicie o bot com o comando: `npm start`
