@@ -31,6 +31,10 @@ client.on("interactionCreate", async (interaction) => {
         const cmd_exist = cmds_file.find(cmd => cmd === `${interaction.commandName}.js`);
         const cmds = await commands;
 
+        if (!interaction.member.roles.cache.has(process.env.ROLE_ID)) {
+            return await interaction.reply({content: "voce nao tem permissao para usar esse comando. manda o rel te dar o cargo ai pra tu poder usar", ephemeral: true});
+        }
+
         if (cmd_exist) {
 
             const module = cmds[cmds_file.indexOf(cmd_exist)];

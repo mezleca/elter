@@ -3,7 +3,7 @@ import { History } from "../utils/models/History.js";
 import { generate_text, generate_vision } from "../utils/openai.js";
 import { get_prompt } from "../utils/openai.js";
 
-const history = [], history_max_size = 10;
+let history = [], history_max_size = 10;
 
 const command = {
 
@@ -25,57 +25,67 @@ const command = {
     ],
     async execute(interaction) {
 
-        const elter_prompt = get_prompt("elter.prompt");
-        const vision_prompt = get_prompt("vision.prompt");
+        await interaction.reply("...");
 
-        const message_content = interaction.options.getString("mensagem");
-        const image_content = interaction.options.getAttachment("imagem");
+        try {
+            const elter_prompt = get_prompt("elter.prompt");
+            const vision_prompt = get_prompt("vision.prompt");
 
-        if (!history) { 
+            const message_content = interaction.options.getString("mensagem");
+            const image_content = interaction.options.getAttachment("imagem");
 
-            history = await History.find({});
+            const date = new Date();
 
-            if (history.length > history_max_size) {
-                history = history.slice(history.length - history_max_size, history.length);
-            };
+            // pega os ultimos 10 elementos do banco de dados.
+            history = await History.find({}, null, { sort: {timestamp: -1} });
 
-        }
-        else {
-            history.push({
+            history.unshift({
                 timestamp: Date.now(),
+                role: "user",
+                name: interaction.user.username,
+                content: message_content      
+            });
+
+            const user_history = new History({
+                timestamp: Date.now(),
+                date: date.getDate(),
                 role: "user",
                 name: interaction.user.username,
                 content: message_content
             });
+
+            await user_history.save();
+
+            if (history.length > 10) {
+                history = history.slice(0, 5);
+            };
+
+            // return await interaction.editReply("```" + history + "```");
+
+            let text = "";
+
+            if (!image_content) {
+                text = await generate_text(elter_prompt, message_content, history);
+            }
+            else {
+                text = await generate_vision(vision_prompt, message_content, image_content.url, history);
+            }
+
+            const new_history = new History({
+                timestamp: Date.now(),
+                date: date.getDate(),
+                role: "system",
+                name: "elter",
+                content: text
+            });
+
+            await new_history.save();
+
+            await interaction.editReply(text);
+        } catch(err) {
+            //console.log(err);
+            await interaction.editReply(err);
         }
-
-        await interaction.deferReply({ephemeral: false});
-
-        let text = "";
-
-        if (!image_content) {
-            text = await generate_text(elter_prompt, message_content, history);
-        }
-        else {
-            text = await generate_vision(vision_prompt, message_content, image_content.url, history);
-        }
-
-        history.push({
-            timestamp: Date.now(),
-            role: "system",
-            name: "elter",
-            content: text
-        });
-
-        const new_history = new History({
-            timestamp: Date.now(),
-            role: "system",
-            name: "elter",
-            content: text
-        });
-
-        await new_history.save();
-        await interaction.editReply(text);
     }
 };
 

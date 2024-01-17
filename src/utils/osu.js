@@ -1,6 +1,7 @@
 import { v2, auth, tools, mods } from 'osu-api-extended';
 import { spotify } from './spotify.js';
 import { openai } from './openai.js';
+import { recognize_song } from './other.js';
 import ytdl from 'ytdl-core';
 import fs from 'fs';
 import { levenshteinEditDistance } from 'levenshtein-edit-distance';
@@ -41,6 +42,8 @@ export const find_osu_map = async (message) => {
 
             let title = youtube.videoDetails.media.song || youtube.videoDetails.title;
             let _artist = youtube.videoDetails.media.artist || "";
+            
+            const song = await recognize_song(message);
 
             if (title.includes("-")) {
                 const split = title.split("-");

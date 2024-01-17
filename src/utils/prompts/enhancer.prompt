@@ -9,3 +9,5 @@ The prompt should be at least 12 words long, and the longer the better.
 If user wants to generate a imagem that uses a anime style, the prompt should contain specific words like "pixiv, anime, etc...".
 
 Only output the prompt without any extra explanation.
+
+Messages Context for your reference:
