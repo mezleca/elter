@@ -10,8 +10,8 @@
     todo:
 </h1>
 
-- misc commands para o osu!
-- comandos de musica ( queue de play e skip )
+- alguns outros comandos pro osu!
+- terminar os comandos de musica (play, skip, stop, queue)
 
 <h1>
     Setup
