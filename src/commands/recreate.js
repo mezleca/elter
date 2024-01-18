@@ -1,6 +1,7 @@
 import { types } from "../utils/types.js";
 import { generate_text, generate_image, get_prompt, generate_vision } from "../utils/openai.js";
 import { History } from "../utils/models/History.js";
+import { embed_message } from "../utils/other.js";
 
 const command = {
 
@@ -32,9 +33,9 @@ const command = {
             const enhanced_prompt = await generate_vision(prompt_enhancer, message, image_content.url, []);
     
             const image = await generate_image(enhanced_prompt);
-            await interaction.editReply(`prompt: ${enhanced_prompt}\n${image}`);
+            await embed_message(`${enhanced_prompt}\n${image}`, image, interaction, true);
         } catch(err) {
-            await interaction.editReply("Erro ao gerar imagem:", err);
+            await embed_message("error", String(err), interaction);
         }
     }
 };

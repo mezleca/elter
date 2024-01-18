@@ -11,7 +11,7 @@
 </h1>
 
 - alguns outros comandos pro osu!
-- terminar os comandos de musica (play, skip, stop, queue)
+- polir/fixar alguns bugs dos comandos (play, skip, stop, queue)
 
 <h1>
     Setup

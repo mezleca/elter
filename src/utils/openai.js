@@ -1,6 +1,7 @@
 import Openai from "openai";
 import path from "path";
 import fs from "fs";
+import { type } from "os";
 
 export const openai = new Openai();
 
@@ -14,8 +15,16 @@ export const get_prompt = (name) => {
     return "";
 };
 
-export const generate_text = async (prompt, message, history) => {
-    const history_ = history ? JSON.stringify([...history].reverse()) : "";
+export const generate_text = async (prompt, message, history_) => {
+    let history = "";
+
+    if (typeof history_ === "object") {
+        history = JSON.stringify(history_);
+    }
+    else {
+        history = history_;
+    }
+
     const response = await openai.chat.completions.create({
         model: "gpt-4-1106-preview",
         temperature: 0.85,

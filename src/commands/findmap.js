@@ -1,4 +1,5 @@
 import { find_osu_map } from "../utils/osu.js";
+import { embed_message } from "../utils/other.js";
 import { types } from "../utils/types.js";
 
 const command = {
@@ -19,11 +20,11 @@ const command = {
 
         try {
             const map = await find_osu_map(link);
-            await interaction.editReply(map)
+            await embed_message("osu", map, interaction);
         }
         catch (error) {
             console.log(error);
-            await interaction.editReply("nao foi possivel encontrar o mapa :c");
+            await embed_message("osu", "nao achei o mapa ;-;", interaction);
             return;
         }
     }

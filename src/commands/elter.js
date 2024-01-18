@@ -2,6 +2,7 @@ import { types } from "../utils/types.js";
 import { History } from "../utils/models/History.js";
 import { generate_text, generate_vision } from "../utils/openai.js";
 import { get_prompt } from "../utils/openai.js";
+import { embed_message } from "../utils/other.js";
 
 let history = [], history_max_size = 10;
 
@@ -25,7 +26,7 @@ const command = {
     ],
     async execute(interaction) {
 
-        await interaction.reply("...");
+        await interaction.deferReply({ephemeral: false});
 
         try {
             const elter_prompt = get_prompt("elter.prompt");
@@ -76,10 +77,10 @@ const command = {
 
             await new_history.save();
 
-            await interaction.editReply(text);
+            await embed_message("elter", text, interaction);
         } catch(err) {
             //console.log(err);
-            await interaction.editReply(err);
+            await embed_message("error", String(err), interaction);
         }
     }
 };

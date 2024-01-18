@@ -1,9 +1,11 @@
+import { embed_message } from "../utils/other.js";
+
 const command = {
     
     name: "ping",
     description: "Pong!",
     async execute(interaction) {
-        await interaction.reply("Pong!");
+        await embed_message("classic", "Pong!", interaction);
     }
 };
 

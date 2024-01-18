@@ -1,5 +1,6 @@
 import { types } from "../utils/types.js"
 import { get_map_pp } from "../utils/osu.js";
+import { embed_message } from "../utils/other.js";
 
 const command = {
     name: "pp",
@@ -27,7 +28,7 @@ const command = {
 
         try {
             const pp = await get_map_pp(id, mods);
-            await interaction.editReply(pp);
+            await embed_message("osu", pp, interaction);
         } catch (err) {
             console.log(err);
             await interaction.editReply("nao foi possivel calcular o pp. tenha certeza que o id da 'dificuldade' esta correto!'");

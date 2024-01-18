@@ -1,6 +1,7 @@
 import { types } from "../utils/types.js";
 import { generate_text, generate_image, get_prompt } from "../utils/openai.js";
 import { History } from "../utils/models/History.js";
+import { embed_message } from "../utils/other.js";
 
 const command = {
 
@@ -26,7 +27,7 @@ const command = {
                 history = history.slice(history.length - 10, history.length);
             };
     
-            const enhanced_prompt = await generate_text(prompt_enhancer, prompt_text, history);
+            const enhanced_prompt = await generate_text(prompt_enhancer, prompt_text, history[0]);
     
             history.unshift({
                 timestamp: Date.now(),
@@ -52,9 +53,9 @@ const command = {
 
             await bot_history.save();
     
-            await interaction.editReply(`prompt: ${enhanced_prompt}\n${image}`);
+            await embed_message(`${enhanced_prompt}`, image, interaction, true);
         } catch(err) {
-            await interaction.editReply("Erro ao gerar imagem: " + err.error.message);
+            await embed_message("error", String(err), interaction);
         }
     }
 };

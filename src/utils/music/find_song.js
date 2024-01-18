@@ -1,21 +1,24 @@
 import ytdl from "ytdl-core";
+import ytsr from "yt-search";
 import path from "path";
 import fs from "node:fs";
 import { spotify } from "../spotify.js";
-import { read } from "fs";
 
 export const find_by_name = (method, name) => {
 
     return async () => {
         if (method === "youtube") {
-            const result = await ytdl.search(name);
-            const video = result.videos[0];
-            return video;
-        }
+            const result = await ytsr(name);
+            // filter the array to contain only videos
+            const filtered = result.videos.filter((video) => video.type === "video");
 
-        const result = await spotify.search(name, { limit: 1, type: "track" });
-        const track = result.body.tracks.items[0];
-        return track;
+            console.log(filtered);
+
+            return filtered.slice(0, 5);
+        }
+        else {
+            return [];
+        }
     };
 };
 

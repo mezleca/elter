@@ -26,6 +26,10 @@ export class Queue extends EventEmitter {
         return item;
     }
 
+    end() {
+        this.emit('end');
+    }
+
     get(item) {
         return this.queue.find((i) => i.id === item.id);
     }
