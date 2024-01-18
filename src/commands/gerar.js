@@ -27,7 +27,7 @@ const command = {
                 history = history.slice(history.length - 10, history.length);
             };
     
-            const enhanced_prompt = await generate_text(prompt_enhancer, prompt_text, history[0]);
+            const enhanced_prompt = await generate_text(prompt_enhancer, prompt_text, [...history].slice(0, 5));
     
             history.unshift({
                 timestamp: Date.now(),
@@ -38,23 +38,25 @@ const command = {
             });
     
             const new_history = new History(history[0]);
-    
+
             await new_history.save();
     
-            const image = await generate_image(prompt_text);
+            const image = await generate_image(prompt_text, true);
 
             const bot_history = new History({
                 timestamp: Date.now(),
                 date: new Date().toLocaleString(),
                 role: "bot",
-                name: "elter",
-                content: enhanced_prompt
+                name: "elter-image",
+                content: "Imagem gerada pelo comando /gerar\n PROMPT: " + prompt_text
             });
 
             await bot_history.save();
-    
-            await embed_message(`${enhanced_prompt}`, image, interaction, true);
+
+            const buffer = Buffer.from(image, "base64");
+            await embed_message(`${enhanced_prompt}`, buffer, interaction, "image");
         } catch(err) {
+            console.log(err);
             await embed_message("error", String(err), interaction);
         }
     }

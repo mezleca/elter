@@ -70,15 +70,16 @@ export const generate_vision = async (system, question, url, history) => {
     return response.choices[0].message.content;
 };
 
-export const generate_image = async (prompt) => {
+export const generate_image = async (prompt, b64) => {
     
     const response = await openai.images.generate({
         prompt: prompt,
         model: "dall-e-3",
         quality: "hd",
         n: 1,
-        style: "vivid"
+        style: "vivid",
+        response_format: b64 ? "b64_json" : "json"
     });
 
-    return response.data[0].url;
+    return b64 ? response.data[0].b64_json : response.data[0].url;
 };

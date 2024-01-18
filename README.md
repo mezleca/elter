@@ -3,7 +3,6 @@
     source code do bot elter-eduardo ( wip ).
     <br>
     serve para conversar, gerar imagens, conseguir informacoes relacionadas a osu!, etc...
-
 </p>
 
 <h1 style="font-size: 40px">

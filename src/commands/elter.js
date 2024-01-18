@@ -36,8 +36,6 @@ const command = {
             const image_content = interaction.options.getAttachment("imagem");
 
             const date = new Date();
-
-            // pega os ultimos 10 elementos do banco de dados.
             history = await History.find({}, null, { sort: {timestamp: -1} });
 
             history.unshift({
@@ -56,8 +54,6 @@ const command = {
                 history = history.slice(0, history_max_size - 1);
             };
 
-            // return await interaction.editReply("```" + history + "```");
-
             let text = "";
 
             if (!image_content) {
@@ -70,7 +66,7 @@ const command = {
             const new_history = new History({
                 timestamp: Date.now(),
                 date: `date: ${date.getDate()} - time: ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
-                role: "system",
+                role: "bot",
                 name: "elter",
                 content: text
             });
@@ -79,7 +75,7 @@ const command = {
 
             await embed_message("elter", text, interaction);
         } catch(err) {
-            //console.log(err);
+            console.log(err);
             await embed_message("error", String(err), interaction);
         }
     }

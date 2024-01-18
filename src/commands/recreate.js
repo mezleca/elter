@@ -32,8 +32,10 @@ const command = {
             const message = interaction.options.getString("prompt");
             const enhanced_prompt = await generate_vision(prompt_enhancer, message, image_content.url, []);
     
-            const image = await generate_image(enhanced_prompt);
-            await embed_message(`${enhanced_prompt}\n${image}`, image, interaction, true);
+            const image = await generate_image(enhanced_prompt, true);
+            const buffer = Buffer.from(image, "base64");
+
+            await embed_message(`${enhanced_prompt}`, buffer, interaction, "image");
         } catch(err) {
             await embed_message("error", String(err), interaction);
         }

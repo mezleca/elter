@@ -12,8 +12,6 @@ export const find_by_name = (method, name) => {
             // filter the array to contain only videos
             const filtered = result.videos.filter((video) => video.type === "video");
 
-            console.log(filtered);
-
             return filtered.slice(0, 5);
         }
         else {
@@ -56,7 +54,7 @@ export const download = (timestamp, method, url) => {
             readable.pipe(writable);
 
             await new Promise((resolve, reject) => {
-                writable.on("finish", resolve);
+                writable.on("finish", () => { console.log("download feito com sucesso"); resolve(); } );
                 writable.on("error", reject);
             });
 
