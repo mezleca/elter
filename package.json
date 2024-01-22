@@ -14,6 +14,7 @@
     "axios": "^1.6.5",
     "discord.js": "^14.14.1",
     "dotenv": "^16.3.1",
+    "express": "^4.18.2",
     "file-type": "^19.0.0",
     "fluent-ffmpeg": "^2.1.2",
     "levenshtein-edit-distance": "^3.0.1",

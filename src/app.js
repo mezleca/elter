@@ -2,6 +2,17 @@ import { Client, GatewayIntentBits } from "discord.js";
 import * as dotenv from "dotenv";
 import mongoose from "mongoose";
 import { cmds_file, commands } from "./setup.js";
+import express from "express";
+
+const app = express();
+
+app.get("/", (req, res) => {
+    res.send({ message: "elter" });
+});
+
+app.listen(3000, () => {
+    console.log("server iniciado");
+});
 
 dotenv.config([
     "../.env"
@@ -30,6 +41,8 @@ client.on("interactionCreate", async (interaction) => {
 
         const cmd_exist = cmds_file.find(cmd => cmd === `${interaction.commandName}.js`);
         const cmds = await commands;
+
+        const a = interaction.options.getAttachment("song")
 
         if (process.env.ROLE_ID) {    
             if (!interaction.member.roles.cache.has(process.env.ROLE_ID)) {
