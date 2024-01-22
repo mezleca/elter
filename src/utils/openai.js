@@ -4,6 +4,7 @@ import fs from "fs";
 import { type } from "os";
 
 export const openai = new Openai();
+openai.apiKey = process.env.OPENAI_API_KEY;
 
 export const get_prompt = (name) => {
 
@@ -16,6 +17,7 @@ export const get_prompt = (name) => {
 };
 
 export const generate_text = async (prompt, message, history_) => {
+
     let history = "";
 
     if (typeof history_ === "object") {
