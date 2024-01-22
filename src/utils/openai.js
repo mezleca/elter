@@ -75,7 +75,7 @@ export const generate_image = async (prompt, b64) => {
     const response = await openai.images.generate({
         prompt: prompt,
         model: "dall-e-3",
-        quality: "hd",
+        quality: "standard",
         n: 1,
         style: "vivid",
         response_format: b64 ? "b64_json" : "json"
