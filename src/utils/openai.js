@@ -5,7 +5,9 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-export const openai = new Openai({apiKey: process.env.OPENAI_API_KEY});
+// ...
+export const openai = new Openai({apiKey: process.env.OPENAI_API_KEY}).apiKey = process.env.OPENAI_API_KEY;
+
 export const get_prompt = (name) => {
 
     const prompt_path = path.resolve(path.resolve("src", "utils", "prompts", name));
