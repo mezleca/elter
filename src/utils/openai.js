@@ -1,6 +1,9 @@
 import Openai from "openai";
 import path from "path";
 import fs from "fs";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export const openai = new Openai({apiKey: process.env.OPENAI_API_KEY});
 export const get_prompt = (name) => {
