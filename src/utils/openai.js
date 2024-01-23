@@ -3,12 +3,11 @@ import path from "path";
 import fs from "fs";
 import dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config({
+    path: "./.env"
+});
 
-Openai.apiKey = process.env.OPENAI_API_KEY;
-
-// ...
-export const openai = new Openai();
+export const openai = new Openai({apiKey: process.env.OPENAI_API_KEY});
 
 export const get_prompt = (name) => {
 
