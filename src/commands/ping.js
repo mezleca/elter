@@ -5,7 +5,11 @@ const command = {
     name: "ping",
     description: "Pong!",
     async execute(interaction) {
-        await embed_message("classic", "Pong!", interaction);
+
+        await interaction.deferReply();
+
+        const ping = Date.now() - interaction.createdTimestamp;
+        await embed_message("classic", "Pong\n delay: " + ping + "ms", interaction);
     }
 };
 
