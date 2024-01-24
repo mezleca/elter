@@ -1,32 +1,21 @@
-import { Client, GatewayIntentBits } from "discord.js";
 import * as dotenv from "dotenv";
 import mongoose from "mongoose";
-import { cmds_file, commands } from "./setup.js";
 import express from "express";
+
+import { cmds_file, commands, client } from "./setup.js";
 
 const app = express();
 
-app.get("/", (req, res) => {
-    res.send({ message: "elter" });
-});
-
-app.listen(3000, () => {
-    console.log("server iniciado");
-});
+const user_db = process.env.DB_USER;
+const password_db = process.env.DB_PASSWORD;
 
 dotenv.config([
     "../.env"
 ]);
 
-const user_db = process.env.DB_USER;
-const password_db = process.env.DB_PASSWORD;
-
 mongoose.connect(`mongodb+srv://${user_db}:${password_db}@cluster0.1rcvrlu.mongodb.net/?retryWrites=true&w=majority`).then(() => {
     console.log("conectado a db");
-    /* initialize(); */
 });
-
-const client = new Client({intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMessageReactions]});
 
 client.on("ready", () => {
     console.log("bot iniciado");
@@ -40,9 +29,7 @@ client.on("interactionCreate", async (interaction) => {
         }
 
         const cmd_exist = cmds_file.find(cmd => cmd === `${interaction.commandName}.js`);
-        const cmds = await commands;
-
-        const a = interaction.options.getAttachment("song")
+        const cmds = commands;
 
         if (process.env.ROLE_ID) {    
             if (!interaction.member.roles.cache.has(process.env.ROLE_ID)) {
@@ -63,4 +50,10 @@ client.on("interactionCreate", async (interaction) => {
     }
 });
 
-client.login(process.env.DISCORD_TOKEN);
+app.get("/", (req, res) => {
+    res.send({ message: "elter" });
+});
+
+app.listen(3000, () => {
+    console.log("server iniciado");
+});
