@@ -83,7 +83,7 @@ export const generate_image = async (prompt, b64) => {
         quality: "standard",
         n: 1,
         style: "vivid",
-        response_format: b64 ? "b64_json" : "json"
+        response_format: b64 ? "b64_json" : "url"
     });
 
     return b64 ? response.data[0].b64_json : response.data[0].url;

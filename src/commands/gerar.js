@@ -41,7 +41,7 @@ const command = {
 
             await new_history.save();
     
-            const image = await generate_image(prompt_text, true);
+            const image = await generate_image(prompt_text);
 
             const bot_history = new History({
                 timestamp: Date.now(),
@@ -52,9 +52,7 @@ const command = {
             });
 
             await bot_history.save();
-
-            const buffer = Buffer.from(image, "base64");
-            await embed_message(`${enhanced_prompt}`, buffer, interaction, "image");
+            await embed_message(`${enhanced_prompt}`, image, interaction, "image");
         } catch(err) {
             console.log(err);
             await embed_message("error", String(err), interaction);

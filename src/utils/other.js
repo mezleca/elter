@@ -43,12 +43,11 @@ export const embed_message = async (title, description, interaction, type, thumb
 
     if (type == "buffer") {
         
-        const attachment = new AttachmentBuilder(description, { name: "image.png" });
         embed.image = {
-            url: "attachment://image.png"
+            url: description
         };
 
-        return await interaction.editReply({ embeds: [embed], files: [attachment] });
+        return await interaction.editReply({ embeds: [embed] });
     }
     else {
         embed.image = {
