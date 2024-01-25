@@ -39,13 +39,14 @@ export const initialize = async () => {
     
         await rest.put(Routes.applicationCommands(process.env.DISCORD_ID), { body: filterd_commands });
 
-        console.log(filterd_commands);
-
-        return "slash commands registrados";
-
+        console.log("comandos registrados!");
+        
     } catch(err) {
         console.error(err);
     };
 };
 
-initialize().then(console.log);
+await initialize();
+
+// force
+process.exit(0);
