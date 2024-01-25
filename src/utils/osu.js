@@ -212,16 +212,22 @@ export const find_osu_map = async (message) => {
 export const get_map_pp = async (id, mod) => {
 
     const mod_id  = mods.id(mod);
-    const info = await tools.pp.calculate(id, mod_id);
+    const data = await tools.pp.calculate(id, mod_id);
 
     const text = 
     `
-    **${info.data.artist}** - **${info.data.title}** by (**${info.data.creator.name}**) [ **${info.data.diff}** | **${info.stats.star.pure}*** **${mod ? `+${mod}` : "NM"}** ]\n
-**100%**: ${info.pp.acc['100']}PP
-**98%**: ${info.pp.acc['98']}PP
-**95%**: ${info.pp.acc['95']}PP
-**90%**: ${info.pp.acc['90']}PP
+**100%**: ${data.pp.acc['100']}PP
+**98%**: ${data.pp.acc['98']}PP
+**95%**: ${data.pp.acc['95']}PP
+**90%**: ${data.pp.acc['90']}PP
     `
 
-    return text;
+    const info = {
+        title: `**${data.data.artist}** - **${data.data.title}** [ **${data.data.diff}** ]`,
+        diff: `**${data.stats.star.pure}**★ **${mod ? `+${mod}` : "NM"}**`,
+        text: text,
+        thumb: data.other.bg
+    };
+
+    return info;
 };

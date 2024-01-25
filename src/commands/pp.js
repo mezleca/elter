@@ -28,7 +28,7 @@ const command = {
 
         try {
             const pp = await get_map_pp(id, mods);
-            await embed_message("osu", pp, interaction);
+            await embed_message(pp.title, pp.diff + pp.text, interaction, null, pp.thumb.full);
         } catch (err) {
             console.log(err);
             await interaction.editReply("nao foi possivel calcular o pp. tenha certeza que o id da 'dificuldade' esta correto!'");
