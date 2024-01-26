@@ -28,7 +28,7 @@ const command = {
             await download(timestamp, "youtube", url)();
 
             if (!fs.existsSync(path.resolve("./temp/" + timestamp + ".mp3"))) {
-                await interaction.editReply("video nao encontrado arrombado");
+                return await interaction.editReply("video nao encontrado arrombado");
             }
 
             const promise = new Promise((r, rj) => {
