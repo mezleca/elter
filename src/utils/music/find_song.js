@@ -36,32 +36,38 @@ export const find_by_url = (method, url) => {
 export const download = (timestamp, method, url) => {
 
     return async () => {
-        if (method === "youtube") {
 
-            const readable = ytdl(url, {
-                filter: "audioonly",
-                quality: 'highestaudio',
-                highWaterMark: 1 << 25
-            });
-            const temp_path = path.resolve("./temp");
+        try {
+            if (method === "youtube") {
 
-            // caso o path nao exista, cria ele
-            if (!fs.existsSync(temp_path)) {
-                fs.mkdirSync(temp_path);
+                const readable = ytdl(url, {
+                    filter: "audioonly",
+                    quality: 'highestaudio',
+                    highWaterMark: 1 << 25
+                });
+                const temp_path = path.resolve("./temp");
+    
+                // caso o path nao exista, cria ele
+                if (!fs.existsSync(temp_path)) {
+                    fs.mkdirSync(temp_path);
+                }
+    
+                const writable = fs.createWriteStream(`./temp/${timestamp}.webm`);
+                readable.pipe(writable);
+    
+                await new Promise((resolve, reject) => {
+                    writable.on("finish", () => { console.log("download feito com sucesso"); resolve(); } );
+                    writable.on("error", reject);
+                });
+    
+                return;
             }
-
-            const writable = fs.createWriteStream(`./temp/${timestamp}.webm`);
-            readable.pipe(writable);
-
-            await new Promise((resolve, reject) => {
-                writable.on("finish", () => { console.log("download feito com sucesso"); resolve(); } );
-                writable.on("error", reject);
-            });
-
+            else {
+                return "Apenas youtube por enquanto galado"
+            }
+        } catch(err) {
             return;
         }
-        else {
-            return "Apenas youtube por enquanto galado"
-        }
+        
     };
 };
