@@ -7,8 +7,6 @@ dotenv.config({
     path: "../../.env"
 });
 
-console.log(process.env.API_URL);
-
 const command = {
     name: "cpf",
     description: "test",
@@ -25,15 +23,16 @@ const command = {
         await interation.deferReply();
 
         try {
+
+            if (!process.env.API_URL) {
+                return await interation.editReply("api para busca de cpf nao encontrada, verifique se voce colocou no .env");
+            }
             
             const cpf = interation.options.getString("cpf");
-            const api_url = process.env.API_URL || "";
+            const api_url = process.env.API_URL;
             const response = await axios.get(api_url + cpf, {});
 
-            const data = response.data;
-
             if (response.status = "success") {
-
                 return await embed_message("...", JSON.stringify(response.data, null, 4), interation);
             }
 

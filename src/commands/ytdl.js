@@ -25,9 +25,9 @@ const command = {
         await interaction.deferReply({ephemeral: false});
 
         try {
-            await download(timestamp, "youtube", url)();
 
-            if (!fs.existsSync(path.resolve("./temp/" + timestamp + ".mp3"))) {
+            const downloaded = await download(timestamp, "youtube", url);
+            if (!downloaded) {
                 return await interaction.editReply("video nao encontrado arrombado");
             }
 
